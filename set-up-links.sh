@@ -29,6 +29,7 @@ else
   ln -s ./ssh-config ~/.ssh/config
 fi
 
+# konkor.github.io/cpufreq gnome-plugin
 # /usr/share/vim-youcompleteme/plugin/youcompleteme.vim
 #[user]
 #	name = N. Pattakos
