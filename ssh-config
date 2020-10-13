@@ -1,0 +1,55 @@
+Host nsp
+  User pattakosn
+  HostName nsp.duckdns.org
+
+Host jim
+  User pattakosn
+  HostName 192.168.1.16
+#  IdentityFile ~/.ssh/id_rsa_lat
+  ForwardX11 yes
+
+Host jimE
+  User pattakosn
+  HostName 192.168.1.36
+#  IdentityFile ~/.ssh/id_rsa_lat
+  ForwardX11 yes
+
+Host curtaIP
+  User npattakos
+  HostName 147.210.55.177
+
+Host curta
+  User npattakos
+  HostName curta.mcia.fr
+#  IdentityFile ~/.ssh/id_rsa_lat
+
+Host mascaret
+  User pattakos
+  HostName mascaret.astrophy.u-bordeaux.fr
+  IdentityFile ~/.ssh/id_rsa_lat
+
+Host ext_mascaret
+  User pattakos
+  HostName mascaret.astrophy.u-bordeaux.fr
+  IdentityFile ~/.ssh/id_rsa_pad
+  ProxyCommand ssh -W %h:%p ssh_server
+Host ssh_server
+  User npattakos
+  HostName labfront.astrophy.u-bordeaux.fr
+  IdentityFile ~/.ssh/id_rsa_pad
+
+#host bitbucket.org
+#  HostName bitbucket.org
+#  IdentityFile ~/.ssh/id_rsa_pad
+#  User nspattak
+
+Host *
+  ForwardAgent yes
+  ForwardX11 yes
+  ControlMaster auto
+  ControlPath /tmp/ssh_mux_%h_%p_%r
+  ControlPersist 4h
+  ForwardAgent yes
+  TCPKeepAlive no
+  ServerAliveInterval 300
+  ServerAliveCountMax 10
