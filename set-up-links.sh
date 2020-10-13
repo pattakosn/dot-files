@@ -29,6 +29,7 @@ else
   ln -s ./ssh-config ~/.ssh/config
 fi
 
+~/.local/share/applications/firefox-beta.desktop
 # konkor.github.io/cpufreq gnome-plugin
 # /usr/share/vim-youcompleteme/plugin/youcompleteme.vim
 #[user]

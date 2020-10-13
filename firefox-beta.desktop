@@ -1,0 +1,29 @@
+[Desktop Entry]
+Version=1.0
+Name=Firefox Beta
+Comment=Browse the World Wide Web
+GenericName=Web Browser
+Keywords=Internet;WWW;Browser;Web;Explorer
+Type=Application
+#Exec=/opt/firefox-beta/firefox -P MyNightlyProfile %u
+Exec=/opt/firefox-beta/firefox
+Terminal=false
+X-MultipleArgs=false
+Icon=/opt/firefox-beta/browser/chrome/icons/default/default128.png
+Categories=GNOME;GTK;Network;WebBrowser;
+Actions=ProfileManager;new-window;new-private-window;
+MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;
+StartupNotify=true
+StartupWMClass=Nightly
+
+[Desktop Action ProfileManager]
+Name=Profile Manager
+Exec=/opt/firefox-beta/firefox -P
+
+[Desktop Action new-window]
+Name=New window
+Exec=/opt/firefox-beta/firefox -new-window -P MyNightlyProfile
+
+[Desktop Action new-private-window]
+Name=New private window
+Exec=/opt/firefox-beta/firefox -private-window -P MyNightlyProfile
