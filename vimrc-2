@@ -1,0 +1,104 @@
+syntax on
+filetype plugin indent on
+set nocompatible
+
+set tabstop=8
+set expandtab
+set softtabstop=8
+set shiftwidth=8
+set autoindent
+set smartindent
+
+set rnu
+
+" if vim plug plugin manager doesn't exist, download it
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+" This is required by polyglot
+let g:polyglot_disabled = ['markdown']
+call plug#begin()
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdtree'
+Plug 'jiangmiao/auto-pairs'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'dracula/vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'cdelledonne/vim-cmake'
+" cscope
+" tagbar
+" taglist
+call plug#end()
+
+" use tab to trigger completion and navigate to next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1] =~ '\s'
+endfunction
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+set termguicolors
+colo dracula
+let g:airline_theme='dracula'
+
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
+" Start NERDTree and put the cursor back in the other window.
+autocmd VimEnter * NERDTree | wincmd p
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" !!!! INSTALL ccls vim with coc !!!
+" Use F8 to open tagbar display
+nmap <F8> :TagbarToggle<CR>
+
+" Use F7 to open tagbar display
+nmap <F7> :Tlist<CR>
+"Show Taglist window on the right side
+let Tlist_Use_Right_Window = 1
+"Close folds for inactive files
+let Tlist_File_Fold_Auto_Close=1
+" point taglist to ctags
+"let Tlist_Ctags_Cmd='/usr/bin/ctags'
+
+" Use F9 to set build dir to ../build
+nmap <F9> :set makeprg=make\ -C\ ../build<CR>
+
+if has('cscope')
+  set cscopetag cscopeverbose
+
+  if has('quickfix')
+    set cscopequickfix=s-,c-,d-,i-,t-,e-
+  endif
+
+"  cnoreabbrev csa cs add
+"  cnoreabbrev csf cs find
+"  cnoreabbrev csk cs kill
+"  cnoreabbrev csr cs reset
+"  cnoreabbrev css cs show
+"  cnoreabbrev csh cs help
+  cnoreabbrev <expr> csa  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs add'  : 'csa')
+  cnoreabbrev <expr> csf  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs find' : 'csf')
+  cnoreabbrev <expr> csk  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs kill' : 'csk')
+  cnoreabbrev <expr> csr  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs reset' : 'csr')
+  cnoreabbrev <expr> css  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs show' : 'css')
+  cnoreabbrev <expr> csh  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs help' : 'csh')
+
+  command -nargs=0 Cscope cs add $VIMSRC/src/cscope.out $VIMSRC/src
+endif
+
+"Remove all trailing whitespace by pressing F5
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
