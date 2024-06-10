@@ -22,20 +22,40 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \| PlugInstall --sync | source $MYVIMRC
 \| endif
 
-" This is required by polyglot
-let g:polyglot_disabled = ['markdown']
 call plug#begin()
+
+" collection of language packs tool
+Plug 'sheerun/vim-polyglot'
+
+" typing suggestion tool
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Browser
 Plug 'preservim/nerdtree'
+
+" help with typing pairs ({}, [], etc)
 Plug 'jiangmiao/auto-pairs'
+
+" Custom bottom info bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'dracula/vim'
-Plug 'sheerun/vim-polyglot'
+
+" integrate cmake
 Plug 'cdelledonne/vim-cmake'
-" cscope
+
+" dark theme
+Plug 'dracula/vim'
+
 " tagbar
+"Plug 'preservim/tagbar'
+"Plug 'majutsushi/tagbar'
+
 " taglist
+Plug 'vim-scripts/taglist.vim'
+
+" cscope
+Plug 'vim-scripts/cscope.vim'
+
 call plug#end()
 
 " use tab to trigger completion and navigate to next complete item
@@ -55,7 +75,8 @@ let g:airline_theme='dracula'
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 " Start NERDTree and put the cursor back in the other window.
-autocmd VimEnter * NERDTree | wincmd p
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " Close the tab if NERDTree is the only window remaining in it.
@@ -102,3 +123,6 @@ endif
 
 "Remove all trailing whitespace by pressing F5
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+cd /d/src
+
