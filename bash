@@ -192,8 +192,12 @@ function man {
 					command man "$@"
 }
 
-. /home/pattakos/spack/share/spack/setup-env.sh
+#. /home/pattakos/spack/share/spack/setup-env.sh
 source /etc/profile.d/modules.sh
+
+export VCPKG_ROOT=/home/pattakosn/github.com/vcpkg
+export PATH=$VCPKG_ROOT:$PATH
+export ONEAPI_ROOT=/opt/intel/oneapi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
