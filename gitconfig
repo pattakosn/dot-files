@@ -1,0 +1,55 @@
+[alias]
+	co = checkout
+	br = branch
+	st = status
+[branch]
+	sort = -committerdate
+[color]
+	ui = auto
+[column]
+	ui = auto
+[commit]
+	verbose = true
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore
+	# fsmonitor = true
+	# untrackedCache = true
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[help]
+	autocorrect = prompt
+[init]
+	defaultBranch = main
+[merge]
+	conflictstyle = zdiff3
+[pull]
+	rebase = true
+[push]
+	default = simple
+	autoSetupRemote = true
+	followTags = true
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[tag]
+	sort = version:refname
+[user]
+	name = N. Pattakos
+	email = pattakosn@fastmail.com
