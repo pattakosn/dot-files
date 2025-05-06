@@ -53,3 +53,5 @@
 [user]
 	name = N. Pattakos
 	email = pattakosn@fastmail.com
+#[url "ssh://git@github.com/"]
+#	insteadOf = https://github.com/
