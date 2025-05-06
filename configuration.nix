@@ -219,9 +219,13 @@
     uv
     gcc
     clang
+    clang-tools
     adaptivecppWithRocm
     sycl-info
     nodejs
+    qt6.full
+    qtcreator
+    eigen
     
     # make tools 
     gnumake
