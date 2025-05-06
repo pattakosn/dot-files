@@ -106,6 +106,8 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  environment.variables = { EDITOR = "vim"; };
+  
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -219,6 +221,7 @@
     clang
     adaptivecppWithRocm
     sycl-info
+    nodejs
     
     # make tools 
     gnumake
@@ -234,10 +237,104 @@
     # cli tools 
     wget
     curl
-    vim-full
     bc
     rsync
     ipmitool
+
+    ((vim_configurable.override {  }).customize{
+      name = "vim";
+      # Install plugins for example for syntax highlighting of nix files
+      vimrcConfig.packages.myplugins = with pkgs.vimPlugins; {
+        start = [ vim-nix vim-lastplace vim-polyglot coc-nvim nerdtree auto-pairs vim-airline vim-airline-themes vim-cmake dracula-vim taglist cscope];
+        opt = [];
+      };
+      vimrcConfig.customRC = ''
+        " your custom vimrc
+        set nocompatible
+        set backspace=indent,eol,start
+        " Turn on syntax highlighting by default
+        syntax on
+        filetype plugin indent on
+
+        set tabstop=8
+        set expandtab
+        set softtabstop=8
+        set shiftwidth=8
+        set autoindent
+        set smartindent
+
+        " relative line numbers 
+        set rnu
+
+        " use tab to trigger completion and navigate to next complete item
+        function! s:check_back_space() abort
+          let col = col('.') - 1
+          return !col || getline('.')[col - 1] =~ '\s'
+        endfunction
+        inoremap <silent><expr> <Tab>
+              \ pumvisible() ? "\<C-n>" :
+              \ <SID>check_back_space() ? "\<Tab>" :
+              \ coc#refresh()
+        
+        set termguicolors
+        colo dracula
+        let g:airline_theme='dracula'
+        
+        nnoremap <leader>n :NERDTreeFocus<CR>
+        nnoremap <C-n> :NERDTreeToggle<CR>
+        " Start NERDTree and put the cursor back in the other window.
+        autocmd VimEnter * NERDTree
+        autocmd VimEnter * wincmd p
+        " Exit Vim if NERDTree is the only window remaining in the only tab.
+        autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+        " Close the tab if NERDTree is the only window remaining in it.
+        autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+        
+        " !!!! INSTALL ccls vim with coc !!!
+        " Use F8 to open tagbar display
+        nmap <F8> :TagbarToggle<CR>
+        
+        " Use F7 to open tagbar display
+        nmap <F7> :Tlist<CR>
+        "Show Taglist window on the right side
+        let Tlist_Use_Right_Window = 1
+        "Close folds for inactive files
+        let Tlist_File_Fold_Auto_Close=1
+        " point taglist to ctags
+        "let Tlist_Ctags_Cmd='/usr/bin/ctags'
+        
+        " Use F9 to set build dir to ../build
+        nmap <F9> :set makeprg=make\ -C\ ../build<CR>
+        
+        if has('cscope')
+          set cscopetag cscopeverbose
+        
+          if has('quickfix')
+            set cscopequickfix=s-,c-,d-,i-,t-,e-
+          endif
+        
+        "  cnoreabbrev csa cs add
+        "  cnoreabbrev csf cs find
+        "  cnoreabbrev csk cs kill
+        "  cnoreabbrev csr cs reset
+        "  cnoreabbrev css cs show
+        "  cnoreabbrev csh cs help
+          cnoreabbrev <expr> csa  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs add'  : 'csa')
+          cnoreabbrev <expr> csf  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs find' : 'csf')
+          cnoreabbrev <expr> csk  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs kill' : 'csk')
+          cnoreabbrev <expr> csr  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs reset' : 'csr')
+          cnoreabbrev <expr> css  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs show' : 'css')
+          cnoreabbrev <expr> csh  ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs help' : 'csh')
+        
+          command -nargs=0 Cscope cs add $VIMSRC/src/cscope.out $VIMSRC/src
+        endif
+        
+        "Remove all trailing whitespace by pressing F5
+        nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+      '';
+      }
+    )
+    ctags
 
     # vm/container related
     docker
