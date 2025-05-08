@@ -55,6 +55,11 @@
   services.xserver.enable = true;
   # amd gpu
   services.xserver.videoDrivers = [ "amdgpu" ];
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+  hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -138,6 +143,7 @@
     lm_sensors
     hardinfo2
     fwupd
+    clinfo
     
     # chat/video apps
     viber
@@ -221,11 +227,36 @@
     clang
     clang-tools
     adaptivecppWithRocm
+    rocmPackages.rocminfo
     sycl-info
     nodejs
     qt6.full
     qtcreator
     eigen
+    vulkan-tools
+    vulkan-loader
+    vulkan-headers
+    vulkan-caps-viewer
+    vulkan-tools-lunarg
+    vulkan-extension-layer
+    vulkan-memory-allocator
+    vulkan-validation-layers
+    vulkan-utility-libraries
+    vk-bootstrap
+    vkmark
+    furmark
+    amdvlk
+    memtest_vulkan
+    renderdoc
+    gpu-viewer
+    pkg-config
+    mesa
+    sdl3
+    xorg.libX11
+    xorg.libXrandr
+    xorg.libXi
+    xorg.libXcursor
+    xorg.libXinerama
     
     # make tools 
     gnumake
