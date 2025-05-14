@@ -219,13 +219,24 @@
     
     # code
     vscode
+    (
+      (vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: {
+        src = fetchTarball {
+          url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+          sha256 = "1kzn3hd8rbvjk0ylbgb9r4v0ljlbmyc4n4rxzl4f9xlqj34v40dx"; #lib.fakeSha256;
+        };
+        version = "latest";
+        buildInputs = oldAttrs.buildInputs ++ [ krb5 ];
+      })
+    )
     jetbrains.goland
+    arduino-ide
+    platformio-core
     cmakeWithGui
     git
     gdb
     gdbgui
     ddd
-    vscode
     python3
     uv
     gcc
