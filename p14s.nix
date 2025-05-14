@@ -149,6 +149,7 @@
     fwupd
     clinfo
     pigz
+    czkawka
     
     # chat/video apps
     viber
