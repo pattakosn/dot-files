@@ -110,7 +110,7 @@
   users.users.pattakosn = {
     isNormalUser = true;
     description = "Nikolas Pattakos";
-    extraGroups = [ "input" "qemu-libvirtd" "libvirtd" "wheel" "video" "audio" "disk" "networkmanager" "docker" "vboxusers" ];
+    extraGroups = [ "input" "qemu-libvirtd" "libvirtd" "wheel" "video" "audio" "disk" "networkmanager" "docker" "vboxusers" "dialout"];
   };
 
   programs.firefox.enable = true;
