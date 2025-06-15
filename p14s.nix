@@ -66,8 +66,8 @@
   hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
   
 
   # Configure keymap in X11
@@ -145,7 +145,15 @@
     syncthing
     powertop
     lm_sensors
+    smartmontools
     hardinfo2
+    gkrellm
+    mission-center
+    resources
+    monitorets
+    glances
+    conky
+    hddtemp
     fwupd
     clinfo
     pigz
@@ -220,17 +228,40 @@
     kitty
     
     # code
-    vscode
-    (
-      (vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: {
-        src = fetchTarball {
-          url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
-          sha256 = "0fznk2kpda2d8n2465lh249il2i6fd66gw5ff1y03xyv8l04jcwp";#lib.fakeSha256;
-        };
-        version = "latest";
-        buildInputs = oldAttrs.buildInputs ++ [ krb5 ];
-      })
-    )
+    #vscode
+    #(
+    #  (vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: {
+    #    src = fetchTarball {
+    #      url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+    #      sha256 = "03xpfjr1m8jrbwig0ybrf9646v275hdzvd3yzzrdc7834fvqx7my";#lib.fakeSha256;
+    #    };
+    #    version = "latest";
+    #    buildInputs = oldAttrs.buildInputs ++ [ krb5 ];
+    #  })
+    #)
+    (vscode-with-extensions.override {
+      vscodeExtensions = with vscode-extensions; [
+        ms-vscode.cpptools
+        ms-vscode.cpptools-extension-pack
+        
+        ms-vscode.cmake-tools
+
+        fortran-lang.linter-gfortran
+        formulahendry.code-runner
+
+        eamodio.gitlens
+        mhutchie.git-graph
+        donjayamanne.githistory
+        waderyan.gitblame
+
+        github.copilot
+        github.copilot-chat
+
+        ms-vscode-remote.remote-containers
+        ms-azuretools.vscode-docker
+      ];
+    })
+    fortls
     jetbrains.goland
     jetbrains.clion
     arduino-ide
@@ -243,8 +274,12 @@
     python3
     uv
     gcc
+    gfortran
     clang
     clang-tools
+    valgrind
+    go
+    rustup
     adaptivecppWithRocm
     rocmPackages.rocminfo
     sycl-info
@@ -295,6 +330,7 @@
     bc
     rsync
     ipmitool
+    hugo
 
     ((vim_configurable.override {  }).customize{
       name = "vim";
@@ -419,6 +455,7 @@
 
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true; 
+  virtualisation.docker.storageDriver = "btrfs";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -430,6 +467,9 @@
 
   # List services that you want to enable:
   programs.ssh.startAgent = true;
+  programs.seahorse.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+  
   # New versions of OpenSSH seem to default to disallowing all `ssh-add -s`
   # calls when no whitelist is provided, so this becomes necessary.
   programs.ssh.agentPKCS11Whitelist = "${pkgs.opensc}/lib/opensc-pkcs11.so";
