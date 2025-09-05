@@ -192,25 +192,26 @@ function man {
 					command man "$@"
 }
 
-#. /home/pattakos/spack/share/spack/setup-env.sh
-#source /etc/profile.d/modules.sh
+# this is probably needed on debian
+command_not_found_handle() {
+  if  [ -x /usr/lib/command-not-found ]; then
+     /usr/lib/command-not-found -- "$1"
+     return $?
+  else
+     return 127
+  fi
+}
 
 #export VCPKG_ROOT=/home/pattakosn/github.com/vcpkg
 #export PATH=$VCPKG_ROOT:$PATH
 #export ONEAPI_ROOT=/opt/intel/oneapi
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-#__conda_setup="$('/home/pattakos/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-#if [ $? -eq 0 ]; then
-#    eval "$__conda_setup"
-#else
-#    if [ -f "/home/pattakos/anaconda3/etc/profile.d/conda.sh" ]; then
-#        . "/home/pattakos/anaconda3/etc/profile.d/conda.sh"
-#    else
-#        export PATH="/home/pattakos/anaconda3/bin:$PATH"
-#    fi
-#fi
-#unset __conda_setup
-# <<< conda initialize <<<
+#. /home/pattakos/spack/share/spack/setup-env.sh
+#source /etc/profile.d/modules.sh
+#source /home/nikos/github.com/Vulkan/lunarg/1.4.321.1/setup-env.sh
 
+source /home/nikos/github.com/git-subrepo/.rc
+##. /home/nikos/opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
+if [[ "${TERM_PROGRAM:-}" == "vscode" || -n "${SSH_CONNECTION:-}" ]]; then
+     source /opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
+fi
