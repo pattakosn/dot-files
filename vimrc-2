@@ -1,15 +1,25 @@
-syntax on
 filetype plugin indent on
+syntax enable
 set nocompatible
-
 set tabstop=8
-set expandtab
 set softtabstop=8
 set shiftwidth=8
+set expandtab
 set autoindent
 set smartindent
-
+set number                " absolute line numbers
+set cursorline           " highlight current line
+set hlsearch             " highlight search results
+set incsearch            " incremental search
+set ignorecase           " case-insensitive search
+set smartcase            " case-sensitive if uppercase used
+set wildmenu             " command completion menu
+set laststatus=2         " always show status line
+set backspace=indent,eol,start  " better backspace behavior
 set rnu
+
+" Set leader key
+let mapleader = ","
 
 " if vim plug plugin manager doesn't exist, download it
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -46,6 +56,18 @@ Plug 'cdelledonne/vim-cmake'
 " dark theme
 Plug 'dracula/vim'
 
+" Git integration
+Plug 'tpope/vim-fugitive'
+" Better commenting
+Plug 'tpope/vim-commentary'
+
+" Fuzzy file finder
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Better syntax highlighting for C++
+Plug 'octol/vim-cpp-enhanced-highlight'
+
 " tagbar
 "Plug 'preservim/tagbar'
 "Plug 'majutsushi/tagbar'
@@ -59,18 +81,32 @@ Plug 'vim-scripts/cscope.vim'
 call plug#end()
 
 " use tab to trigger completion and navigate to next complete item
-function! s:check_back_space() abort
+" Tab completion function - must be defined before mappings
+function! CheckBackSpace() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1] =~ '\s'
+  return !col || getline('.')[col - 1] =~# '\s'
 endfunction
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
+" Use tab for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackSpace() ? "\<TAB>" :
       \ coc#refresh()
 
-set termguicolors
-colo dracula
-let g:airline_theme='dracula'
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+if has('termguicolors')
+  set termguicolors
+endif
+try
+  colorscheme dracula
+  let g:airline_theme='dracula'
+catch /^Vim\%((\a\+)\)\=:E185/
+  " Fallback if dracula not available
+  colorscheme default
+endtry
 
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
@@ -78,13 +114,11 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
 " Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " !!!! INSTALL ccls vim with coc !!!
 " Use F8 to open tagbar display
-nmap <F8> :TagbarToggle<CR>
+"nmap <F8> :TagbarToggle<CR>
 
 " Use F7 to open tagbar display
 nmap <F7> :Tlist<CR>
@@ -103,6 +137,13 @@ if has('cscope')
 
   if has('quickfix')
     set cscopequickfix=s-,c-,d-,i-,t-,e-
+  endif
+
+   " Try to load cscope database from current directory
+  if filereadable("cscope.out")
+    cs add cscope.out
+  elseif filereadable("../cscope.out")
+    cs add ../cscope.out
   endif
 
 "  cnoreabbrev csa cs add

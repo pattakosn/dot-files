@@ -202,15 +202,15 @@ command_not_found_handle() {
   fi
 }
 
+source /etc/profile.d/modules.sh
+#. "$HOME/.cargo/env"
+#. /home/pattakosn/github/spack/share/spack/setup-env.sh
+#source /home/pattakosn/github.com/vulkan-repo/external/lunarg/1.4.321.1/setup-env.sh
 #export VCPKG_ROOT=/home/pattakosn/github.com/vcpkg
 #export PATH=$VCPKG_ROOT:$PATH
 #export ONEAPI_ROOT=/opt/intel/oneapi
-
-#. /home/pattakos/spack/share/spack/setup-env.sh
-#source /etc/profile.d/modules.sh
-#source /home/nikos/github.com/Vulkan/lunarg/1.4.321.1/setup-env.sh
-
 source /home/nikos/github.com/git-subrepo/.rc
+
 ##. /home/nikos/opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
 if [[ "${TERM_PROGRAM:-}" == "vscode" || -n "${SSH_CONNECTION:-}" ]]; then
      source /opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
