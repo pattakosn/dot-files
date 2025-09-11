@@ -2,6 +2,9 @@
 	co = checkout
 	br = branch
 	st = status
+	lg0 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)' --all
 [branch]
 	sort = -committerdate
 [color]
@@ -24,19 +27,19 @@
 	prune = true
 	pruneTags = true
 	all = true
-[filter "lfs"]
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
+#[filter "lfs"]
+#	smudge = git-lfs smudge -- %f
+#	process = git-lfs filter-process
+#	required = true
+#	clean = git-lfs clean -- %f
 [help]
 	autocorrect = prompt
 [init]
 	defaultBranch = main
 [merge]
 	conflictstyle = zdiff3
-[pull]
-	rebase = true
+#[pull]
+#	rebase = true
 [push]
 	default = simple
 	autoSetupRemote = true
@@ -44,7 +47,7 @@
 [rebase]
 	autoSquash = true
 	autoStash = true
-	updateRefs = true
+#	updateRefs = true
 [rerere]
 	enabled = true
 	autoupdate = true
@@ -55,3 +58,5 @@
 	email = pattakosn@fastmail.com
 #[url "ssh://git@github.com/"]
 #	insteadOf = https://github.com/
+[cola]
+	spellcheck = false
