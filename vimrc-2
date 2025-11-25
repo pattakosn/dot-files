@@ -17,6 +17,7 @@ set wildmenu             " command completion menu
 set laststatus=2         " always show status line
 set backspace=indent,eol,start  " better backspace behavior
 set rnu
+":setlocal foldmethod=syntax
 
 " Set leader key
 let mapleader = ","
@@ -164,3 +165,7 @@ endif
 
 "Remove all trailing whitespace by pressing F5
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" On linux use caps lock as ctrl
+au VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
