@@ -212,16 +212,26 @@ source /etc/profile.d/modules.sh
 #export VCPKG_ROOT=/home/pattakosn/github.com/vcpkg
 #export PATH=$VCPKG_ROOT:$PATH
 #export ONEAPI_ROOT=/opt/intel/oneapi
-source /home/nikos/github.com/git-subrepo/.rc
+#source /home/nikos/github.com/git-subrepo/.rc
 
 ##. /home/nikos/opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
 #if [[ "${TERM_PROGRAM:-}" == "vscode" || -n "${SSH_CONNECTION:-}" ]]; then
 #     source /opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
 #fi
-#export POKY_SDK_BASE_PATH=/opt/poky/4.1.4
-export POKYSDK_ROOT=/opt/poky/4.1.4
+
 #export VULKAN_SDK=/home/nikos/github.com/vulkan-related/external/lunarg/1.4.355.0
 # Vulkan SDK
 if [ -f /home/nikos/github.com/vulkan-related/external/lunarg/1.4.355.0/setup-env.sh ]; then
     source /home/nikos/github.com/vulkan-related/external/lunarg/1.4.355.0/setup-env.sh
 fi
+
+#export CMAKE_PREFIX_PATH="/opt/installed:$CMAKE_PREFIX_PATH"
+#export PKG_CONFIG_PATH="/opt/installed/lib/pkgconfig:$PKG_CONFIG_PATH"
+## Custom installation prefix
+#export PATH="/opt/installed/bin:$PATH"
+#export CMAKE_PREFIX_PATH="/opt/installed:$CMAKE_PREFIX_PATH"
+#export LD_LIBRARY_PATH="/opt/installed/lib:$LD_LIBRARY_PATH"
+#export C_INCLUDE_PATH="/opt/installed/include:$C_INCLUDE_PATH"
+#export CPLUS_INCLUDE_PATH="/opt/installed/include:$CPLUS_INCLUDE_PATH"
+#export PKG_CONFIG_PATH="/opt/installed/lib/pkgconfig:$PKG_CONFIG_PATH"
+
