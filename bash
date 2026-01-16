@@ -93,6 +93,9 @@ alias la='ls -A'
 #alias l='ls -CF'
 alias l='ls -lh'
 
+# isn't this an AMAZING idea?
+alias mygrep='grep --exclude-dir=build --exclude-dir=.git'
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -212,6 +215,13 @@ source /etc/profile.d/modules.sh
 source /home/nikos/github.com/git-subrepo/.rc
 
 ##. /home/nikos/opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
-if [[ "${TERM_PROGRAM:-}" == "vscode" || -n "${SSH_CONNECTION:-}" ]]; then
-     source /opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
+#if [[ "${TERM_PROGRAM:-}" == "vscode" || -n "${SSH_CONNECTION:-}" ]]; then
+#     source /opt/poky/4.1.4/environment-setup-corei7-64-poky-linux
+#fi
+#export POKY_SDK_BASE_PATH=/opt/poky/4.1.4
+export POKYSDK_ROOT=/opt/poky/4.1.4
+#export VULKAN_SDK=/home/nikos/github.com/vulkan-related/external/lunarg/1.4.355.0
+# Vulkan SDK
+if [ -f /home/nikos/github.com/vulkan-related/external/lunarg/1.4.355.0/setup-env.sh ]; then
+    source /home/nikos/github.com/vulkan-related/external/lunarg/1.4.355.0/setup-env.sh
 fi

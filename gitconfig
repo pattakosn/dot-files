@@ -62,8 +62,8 @@
 [tag]
 	sort = version:refname
 [user]
-	name = N. Pattakos
-	email = pattakosn@fastmail.com
+	name = Nikos Pattakos
+	email = nikolas.pattakos@analogway.com
 #[url "ssh://git@github.com/"]
 #	insteadOf = https://github.com/
 [cola]
